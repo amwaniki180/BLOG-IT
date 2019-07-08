@@ -32,5 +32,12 @@ class TestComment(unittest.TestCase):
         self.assertTrue(self.new_comment.title == "Haha")
 
 
+    def test_save_comment(self):
+        """
+        This will test whether the comment is added to the db
+        """
+        self.new_comment.save_comment()
+        self.assertTrue(len(Comment.query
+
     
 
