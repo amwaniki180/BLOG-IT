@@ -19,3 +19,11 @@ class TestComment(unittest.TestCase):
         Post.query.delete()
         Comment.query.delete()
 
+    def test_is_instance(self):
+        """
+        This will test whether the comment created is an instance of the Comment class
+        """
+        self.assertTrue(isinstance(self.new_comment, Comment))
+
+    
+
