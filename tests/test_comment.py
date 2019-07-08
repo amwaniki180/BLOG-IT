@@ -11,3 +11,11 @@ class TestComment(unittest.TestCase):
         This will create a new comment before each test
         """
         self.new_comment = Comment(title = "Haha")
+   
+      def tearDown(self):
+        """
+        THis will clear the db after each test
+        """
+        Post.query.delete()
+        Comment.query.delete()
+
