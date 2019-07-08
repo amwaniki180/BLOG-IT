@@ -49,3 +49,19 @@ def add_post():
         return redirect(url_for('main.index'))
 
     return render_template("add_pitch.html",form = form,title = title)
+
+@main.route("/post/<int:id>",methods = ["GET","POST"])
+def post_page(id):
+    post = Post.query.filter_by(id = id).first()
+    title = post.title
+    form = AddComment()
+    if form.validate_on_submit():
+        name = form.name.data
+        content = form.comment.data
+        new_comment = Comment(name = name, content = content, post = post)
+        new_comment.save_comment()
+        return redirect(url_for('main.post_page', id = post.id))
+    comments = Comment.query.filter_by(post_id = post.id)
+    title = post.title
+    return render_template("post.html", title = title, post = post,form = form,comments = comments)
+
