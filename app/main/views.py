@@ -2,6 +2,7 @@ from . import main
 from flask_login import current_user, login_required
 from .forms import AddPostForm,SubscribeForm,AddComment,EditBio
 from ..models import Post,User,Comment,Subscriber
+from ..requests import get_quotes
 from flask import redirect,url_for,render_template,flash,request
 from .. import db,photos
 from datetime import datetime
@@ -19,7 +20,9 @@ def index():
         return redirect(url_for("main.index"))
     posts = Post.query.order_by(Post.time.desc())
     title = "Home"
-    return render_template("index.html",posts = posts,form = form,title = title)
+    quote = get_quotes()
+    print(quote.quote)
+    return render_template("index.html",posts = posts,form = form,title = title,quote= quote)
 
 @main.route("/add/post/",methods = ["GET","POST"])
 @login_required
@@ -27,25 +30,24 @@ def add_post():
     form = AddPostForm()
     title = "Add Post"
 
-
+    print(form)
     if form.validate_on_submit():
         title = form.title.data
-        content = form.content.data
+        post = form.post.data
         posted = str(datetime.now())
-        print(posted)
-        if "photo" in request.files:
-            pic = photos.save(request.files["photo"])
-            file_path = f"photos/{pic}"
-            image = file_path
-        new_post = Post(title = title, content = content, user = current_user,image = image,time = posted)
-        new_post.save_post()
+        # print(posted)
+        
+        new_post = Post(title = title, user_id = current_user.id, post = post,time = posted)
+        
+        db.session.add(new_post)
+        db.session.commit()
         subscribers = Subscriber.query.all()
         emails = []
         for subscriber in subscribers:
             emails.append(subscriber.email)
         for email in emails:
             create_mail("Update!","email/update",email, user = current_user)
-        print(emails)
+            print(emails)
         return redirect(url_for('main.index'))
 
     return render_template("add_pitch.html",form = form,title = title)

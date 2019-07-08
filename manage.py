@@ -23,7 +23,7 @@ def test():
 migrate = Migrate(app,db)
 manager.add_command("db", MigrateCommand)
 
-manager.add_command("serve", Server)
+manager.add_command("server", Server)
 
 if __name__ == "__main__":
     manager.run()
