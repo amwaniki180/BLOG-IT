@@ -39,5 +39,13 @@ class TestComment(unittest.TestCase):
         self.new_comment.save_comment()
         self.assertTrue(len(Comment.query
 
+    def test_post_relation(self):
+        """
+        This will test whether the comment is correctly linked to the post
+        """
+        new_post = Post(title = "No")
+        self.new_comment.post = new_post
+        self.assertTrue(self.new_comment.post.title == "No")
+
     
 
