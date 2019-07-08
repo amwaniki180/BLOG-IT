@@ -27,7 +27,7 @@ class TestConfig(Config):
     """
     This is the class which will contain the test configurations
     """
-    SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://antony:dee@localhost/blog'
+    SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://antony:dee@localhost/tests'
 
 
 config_options = {
