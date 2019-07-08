@@ -31,3 +31,22 @@ class TestUSer(unittest.TestCase):
         """
         self.assertTrue(self.new_user.username == "antony")
         self.assertTrue(self.new_user.bio == "haha")
+
+     def test_pass_generate(self):
+        """
+        This will test whether a new password is generated for the user
+        """
+        self.assertTrue(self.new_user.user_pass is not None)
+    
+    def test_hash_generate(self):
+        """
+        This will test whether the password generated is not equal to the original password
+        """
+        self.assertTrue(self.new_user.user_pass is not "antony")
+    
+    def test_save_user(self):
+        """
+        This will test whether the user is saved to the db
+        """
+        self.new_user.save_user()
+        self.assertTrue(len(User.query.all()) == 1)
