@@ -47,3 +47,7 @@ class Post(db.Model):
     comments = db.relationship("Comment",backref = "post", lazy = "dynamic")
     def get_post_comments(self):
         return Comment.query.filter_by(post_id = self.id)
+
+    def save_post(self):
+        db.session.add(self)
+        db.session.commit()
