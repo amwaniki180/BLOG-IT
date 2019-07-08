@@ -10,7 +10,7 @@ class TestUSer(unittest.TestCase):
         """
         This will create a new user before each test
         """
-        self.new_user = User(username = "Marvin",bio = "haha",password ="marvin")
+        self.new_user = User(username = "antony",bio = "haha",password ="antony")
 
     def tearDown(self):
         """
