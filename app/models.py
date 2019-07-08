@@ -70,7 +70,7 @@ class Subscriber(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String)
 
-     def save_subscriber(self):
+    def save_subscriber(self):
         db.session.add(self)
         db.session.commit()
 
