@@ -25,5 +25,12 @@ class TestComment(unittest.TestCase):
         """
         self.assertTrue(isinstance(self.new_comment, Comment))
 
+    def test_init(self):
+        """
+        This willl test whether the new_commment is instantiated correctly
+        """
+        self.assertTrue(self.new_comment.title == "Haha")
+
+
     
 
