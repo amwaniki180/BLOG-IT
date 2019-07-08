@@ -35,3 +35,13 @@ class User(UserMixin,db.Model):
 
     def verify_pass(self,password):
         return check_password_hash(self.user_pass, password)
+
+class Post(db.Model):
+    __tablename__ = "posts"
+    id  = db.Column(db.Integer,primary_key = True)
+    title = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    content = db.Column(db.String)
+    time = db.Column(db.String)
+    image = db.Column(db.String)
+    comments = db.relationship("Comment",backref = "post", lazy = "dynamic")
