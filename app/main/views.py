@@ -65,3 +65,20 @@ def post_page(id):
     title = post.title
     return render_template("post.html", title = title, post = post,form = form,comments = comments)
 
+main.route("/delete/<id>")
+def delete(id):
+    post = Post.query.filter_by(id = id).first()
+    user_id = post.user_id
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect(url_for('main.profile', id = user_id))
+
+@main.route("/delete/comment/<id>")
+def delete_comment(id):
+    comment = Comment.query.filter_by(id = id).first()
+    post_id = comment.post.id
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect(url_for("main.post_page", id = post_id))
+
