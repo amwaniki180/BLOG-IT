@@ -11,3 +11,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField("Password", validators = [Required(),EqualTo("pass_confirm", message = "Passwords do not match")])
     pass_confirm = PasswordField("Confirm Password", validators = [Required()])
     submit = SubmitField("Register")
+
+    def validate_username(self,data_field):
+        if User.query.filter_by(username = data_field.data).first():
+            raise ValidationError("Username is already taken")
