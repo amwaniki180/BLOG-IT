@@ -82,3 +82,36 @@ def delete_comment(id):
     db.session.commit()
     return redirect(url_for("main.post_page", id = post_id))
 
+@main.route("/profile/<id>")
+def profile(id):
+    user = User.query.filter_by(id = id).first()
+    posts = Post.query.filter_by(user_id = user.id).order_by(Post.time.desc())
+    title = user.full_name
+    return render_template("profile.html", user = user,posts = posts, title = title)
+
+@main.route("/<user_id>/profile/edit",methods = ["GET","POST"])
+@login_required
+def update_profile(user_id):
+    title = "Edit Profile"
+    user = User.query.filter_by(id = user_id).first()
+    form = EditBio()
+
+    if form.validate_on_submit():
+        bio = form.bio.data
+        user.bio = bio
+        db.session.commit() 
+        return redirect(url_for('main.profile',id = user.id)) 
+    return render_template("update_profile.html",form = form,title = title)
+
+@main.route("/pic/<user_id>/update", methods = ["POST"])
+@login_required
+def update_pic(user_id):
+    user = User.query.filter_by(id = user_id).first()
+    title = "Edit Profile"
+    if "profile-pic" in request.files:
+        pic = photos.save(request.files["profile-pic"])
+        file_path = f"photos/{pic}"
+        user.image = file_path
+        db.session.commit()
+    return redirect(url_for("main.profile", id = user.id))
+
