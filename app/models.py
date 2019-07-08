@@ -24,3 +24,14 @@ class User(UserMixin,db.Model):
     def save_user(self):
         db.session.add(self)
         db.session.commit()
+
+    @property
+    def password(self):
+        raise AttributeError("Gerrarahia")
+
+    @password.setter
+    def password(self,password):
+        self.user_pass = generate_password_hash(password)
+
+    def verify_pass(self,password):
+        return check_password_hash(self.user_pass, password)
